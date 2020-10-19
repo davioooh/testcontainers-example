@@ -15,4 +15,4 @@ VALUES ('Poppy', 'Poppy is the queen of the Pop Trolls.', false),
        ('Guy Diamond',
         'Guy Diamond is a glitter troll. Unlike most other trolls, Guy doesn''t wear clothes. Guy''s voice has an auto-tuned sound.',
         true),
-       ('Biggie', 'Biggie is a big and fat troll. He carries around with him a pet worm named Mr. Dinkles.', false);
+       ('Biggie', 'Biggie is a big and fat troll.', false);
