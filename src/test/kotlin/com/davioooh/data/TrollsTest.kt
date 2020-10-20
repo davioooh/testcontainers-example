@@ -17,12 +17,12 @@ internal class TrollsTest {
 
     @Container
     private val postgreSQLContainer =
-        PostgreSQLContainer<Nothing>("postgres:11.7")
-            .apply {
-                withDatabaseName(DB_NAME)
-                withUsername(DB_USER)
-                withPassword(DB_PASSWORD)
-            }
+            PostgreSQLContainer<Nothing>("postgres:11.7")
+                    .apply {
+                        withDatabaseName(DB_NAME)
+                        withUsername(DB_USER)
+                        withPassword(DB_PASSWORD)
+                    }
 
     private lateinit var jdbi: Jdbi
     private lateinit var dao: Trolls
@@ -33,11 +33,6 @@ internal class TrollsTest {
         dao = Trolls(jdbi)
         jdbi.useHandleUnchecked { it.execute(ResourceFetcher.readResource("${TEST_TABLE_NAME}_test.sql")) }
     }
-
-    private fun buildJdbiFromTestContainer(postgresContainer: PostgreSQLContainer<Nothing>): Jdbi =
-        postgresContainer.run {
-            Jdbi.create("jdbc:postgresql://$host:$firstMappedPort/$DB_NAME", username, password)
-        }
 
     @Test
     fun `finds a troll by ID`() {
@@ -58,11 +53,11 @@ internal class TrollsTest {
     @Test
     fun `inserts a new troll`() {
         val smidgeId = dao.insert(
-            TrollData(
-                name = "Smidge",
-                description = "Smidge is one of the smallest Trolls in Troll Kingdom. But is very very strong!",
-                isGlitterTroll = false
-            )
+                TrollData(
+                        name = "Smidge",
+                        description = "Smidge is one of the smallest Trolls in Troll Kingdom. But is very very strong!",
+                        isGlitterTroll = false
+                )
         )
 
         assertOnRetrievedTroll(smidgeId) { smidge ->
@@ -74,12 +69,12 @@ internal class TrollsTest {
 
     @Test
     fun `updates an existing troll`() {
-        dao.update(
-            4, TrollData(
-                name = "Biggie",
-                description = "Biggie is a big and fat troll. He carries around with him a pet worm named Mr. Dinkles.",
-                isGlitterTroll = false
-            )
+        dao.update(4,
+                TrollData(
+                        name = "Biggie",
+                        description = "Biggie is a big and fat troll. He carries around with him a pet worm named Mr. Dinkles.",
+                        isGlitterTroll = false
+                )
         )
 
         assertOnRetrievedTroll(4) { biggie ->
@@ -104,8 +99,8 @@ internal class TrollsTest {
     private fun assertOnRetrievedTroll(trollId: Long, assertions: (Map<String, Any>?) -> Unit) {
         jdbi.useHandleUnchecked {
             val trollAsMap: Map<String, Any>? = it.createQuery("select * from $TEST_TABLE_NAME where id = $trollId")
-                .mapToMap()
-                .findOne().orElse(null)
+                    .mapToMap()
+                    .findOne().orElse(null)
 
             assertions(trollAsMap)
         }
@@ -116,6 +111,11 @@ internal class TrollsTest {
         const val DB_USER = "test"
         const val DB_PASSWORD = "test"
         const val TEST_TABLE_NAME = "trolls"
+
+        fun buildJdbiFromTestContainer(postgresContainer: PostgreSQLContainer<Nothing>): Jdbi =
+                postgresContainer.run {
+                    Jdbi.create("jdbc:postgresql://$host:$firstMappedPort/$DB_NAME", username, password)
+                }
     }
 
 }
