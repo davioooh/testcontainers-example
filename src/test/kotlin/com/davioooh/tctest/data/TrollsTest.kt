@@ -1,4 +1,4 @@
-package com.davioooh.data
+package com.davioooh.tctest.data
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

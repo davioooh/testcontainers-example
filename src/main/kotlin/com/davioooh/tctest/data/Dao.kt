@@ -1,4 +1,4 @@
-package com.davioooh.data
+package com.davioooh.tctest.data
 
 interface Dao<in I, out O, ID> {
     fun findById(id: ID): O?

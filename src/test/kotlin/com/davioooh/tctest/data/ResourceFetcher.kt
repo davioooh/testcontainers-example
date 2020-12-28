@@ -1,4 +1,4 @@
-package com.davioooh.data
+package com.davioooh.tctest.data
 
 import org.testcontainers.shaded.org.apache.commons.io.IOUtils
 import java.io.IOException
